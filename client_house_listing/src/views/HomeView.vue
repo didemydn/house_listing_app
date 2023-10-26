@@ -82,6 +82,7 @@ export default {
 
       <ul>
         <li v-for="house in sortedHouses" :key="house.id" class="house">
+          <router-link :to="'/houses/' + house.id">
           <img :src="house.image" alt="house_img" class="image">
           <div class="house-details"> 
           <div>{{ house.location.street}}-{{ house.location.houseNumber }}</div>
@@ -92,6 +93,7 @@ export default {
           <div>{{ house.rooms.bedrooms }}</div>
           <div>{{ house.rooms.bathrooms }}</div>
         </div>
+      </router-link>
         </li>
       </ul>
     </div>
