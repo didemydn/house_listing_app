@@ -1,24 +1,18 @@
 <template>
+  <div> 
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/houses">House</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
+    <nav class="navbar">
+      <img alt="Dtt logo" class="logo" src="@/assets/dtt_logo.png" width="125" height="125" />
+        <div class="nav-links">
+          <RouterLink to="/houses" 
+          class="nav-router" :class="{active: $route.path === '/houses'}">Houses</RouterLink>
+          <RouterLink to="/about"
+          class="nav-router" :class="{active: $route.path === '/about'}">About</RouterLink>
+        </div>
+    </nav>    
   </header>
-    
-    <div>
-      <h1>Houses</h1>
-      <ul>
-        <li v-for="house in houses" :key="house.id">
-          <img :src="house.image" alt="house_img">
-          <h2>{{ house.price }}</h2>
-          <p>{{ house.location.city }}</p>
-        </li>
-      </ul>
-    </div>
+  <RouterView/>
+  </div>
 </template>
 
 
@@ -56,12 +50,33 @@ export default {
 };
 </script>
 
-
-
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 12px;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.nav-links {
+  display: flex;
+}
+
+.nav-links .nav-router {
+  display: inline-block;
+  padding: 0 1rem;
+  border-left: 1px solid;
+  text-decoration: none;
+  color: #C3C3C3;
+  transition: 0.4s;
+  font-weight: bold;
+}
+
+.nav-links .nav-router.active {
+  color: #000000;
 }
 
 .logo {
@@ -69,55 +84,4 @@ header {
   margin: 0 auto 2rem;
 }
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
 </style>
