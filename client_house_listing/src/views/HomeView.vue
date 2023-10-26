@@ -7,15 +7,29 @@ export default {
     return {
       houses: [],
       searchQuery: '',
+      sortBy: '',
     };    
   },
 
   computed: {
+    //filter houses as per search button
     filteredHouses() {
       return this.houses.filter((house) => {
         return house.location.city.toLowerCase().includes(this.searchQuery.toLowerCase());
       });
     },
+
+    //sort houses as per sort buttons (price and size)
+
+    sortedHouses() {
+      let sorted = [...this.filteredHouses]; //copy filteredhouses to keep original data    
+    if (this.sortBy === 'price') {
+      sorted = sorted.sort((a,b) => a.price - b.price);
+    } else if (this.sortBy === 'size') {
+      sorted = sorted.sort((a,b) => a.size - b.size);
+    }
+    return sorted;
+  },
   },
 
   methods: {
@@ -32,7 +46,11 @@ export default {
       } catch (error){
         console.log(error);
       }
-    },    
+    },
+
+    sortByOption(option) {
+    this.sortBy = option;
+  },  
   }, 
 
   created() {
@@ -46,7 +64,7 @@ export default {
       <h1>Houses</h1>
 
       <!--Search for a house-->
-      <input v-model="searchQuery" @input="filterHouses" placeholder="Search for a house"/> 
+      <input v-model="searchQuery" placeholder="Search for a house"/> 
       <!--Display the results-->
       <p v-if="searchQuery && filteredHouses.length > 0">
       {{ filteredHouses.length }} {{ filteredHouses.length > 1 ? 'results' : 'result' }} founded
@@ -55,11 +73,19 @@ export default {
         No results found. Please try another keyword. 
       </p>
        
+      <!--Sort button for price and size-->
+      <div class="sort-buttons">
+        <button @click="sortByOption('price')">Price</button>
+        <button @click="sortByOption('size')">Size</button>
+      </div>
+
+
       <ul>
-        <li v-for="house in filteredHouses" :key="house.id" class="house">
+        <li v-for="house in sortedHouses" :key="house.id" class="house">
           <img :src="house.image" alt="house_img" class="image">
           <div class="house-details"> 
           <div>{{ house.location.street}}-{{ house.location.houseNumber }}</div>
+          <div>€{{ house.price }}</div>
           <div>{{ house.location.zip }}</div>
           <div>{{ house.location.city }}</div>
           <div>{{ house.size }}m2</div>
