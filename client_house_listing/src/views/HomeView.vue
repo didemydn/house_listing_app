@@ -6,7 +6,16 @@ export default {
   data() {
     return {
       houses: [],
+      searchQuery: '',
     };    
+  },
+
+  computed: {
+    filteredHouses() {
+      return this.houses.filter((house) => {
+        return house.location.city.toLowerCase().includes(this.searchQuery.toLowerCase());
+      });
+    },
   },
 
   methods: {
@@ -35,11 +44,28 @@ export default {
 <template>
   <div class="house-list">
       <h1>Houses</h1>
+
+      <!--Search for a house-->
+      <input v-model="searchQuery" @input="filterHouses" placeholder="Search for a house"/> 
+      <!--Display the results-->
+      <p v-if="searchQuery && filteredHouses.length > 0">
+      {{ filteredHouses.length }} {{ filteredHouses.length > 1 ? 'results' : 'result' }} founded
+      </p>
+      <p v-else-if="searchQuery && filteredHouses.length === 0">      
+        No results found. Please try another keyword. 
+      </p>
+       
       <ul>
-        <li v-for="house in houses" :key="house.id" class="house">
+        <li v-for="house in filteredHouses" :key="house.id" class="house">
           <img :src="house.image" alt="house_img" class="image">
-          <h2>{{ house.price }}</h2>
-          <p>{{ house.location.city }}</p>
+          <div class="house-details"> 
+          <div>{{ house.location.street}}-{{ house.location.houseNumber }}</div>
+          <div>{{ house.location.zip }}</div>
+          <div>{{ house.location.city }}</div>
+          <div>{{ house.size }}m2</div>
+          <div>{{ house.rooms.bedrooms }}</div>
+          <div>{{ house.rooms.bathrooms }}</div>
+        </div>
         </li>
       </ul>
     </div>
