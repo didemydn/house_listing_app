@@ -1,30 +1,33 @@
 <template>
-
-<div class="house-details">
+    <div class="house-details">
       <h1>Houses</h1>
         <ul>
+            
         <li v-for="house in houses" :key="house.id" class="house">
-          <img :src="house.image" alt="house_img" class="image">
+          <img :src="house.image" alt="house_img" class="image">     
+          <div class="buttons">
+            <router-link :to="'/houses/' + house.id + '/edit'">Edit</router-link>
+            <button @click="deleteHouse(house.id)">Delete</button>
+        </div>     
           <div class="house-details"> 
-          <div>{{ house.location.street}}-{{ house.location.houseNumber }}</div>
-          <div>€{{ house.price }}</div>
-          <div>{{ house.location.zip }}</div>
-          <div>{{ house.location.city }}</div>
-          <div>{{ house.size }}m2</div>
-          <div>{{ house.rooms.bedrooms }}</div>
-          <div>{{ house.rooms.bathrooms }}</div>
-          <div>{{ house.hasGarages }}</div> 
-          <div>{{ house.constructionYear }}</div> 
-          <div>{{ house.description}}</div>
+            <div class="detail-street">{{ house.location.street}}-{{ house.location.houseNumber }}</div>
+            <div class="detail">€{{ house.price }}</div>
+            <div class="detail">{{ house.location.zip }}</div>
+            <div class="detail">{{ house.location.city }}</div>
+            <div class="detail">{{ house.size }}m2</div>
+            <div class="detail">{{ house.rooms.bedrooms }}</div>
+            <div class="detail">{{ house.rooms.bathrooms }}</div>
+            <div class="detail">{{ house.hasGarages }}</div> 
+            <div class="detail">{{ house.constructionYear }}</div> 
+            <div class="=detail">{{ house.description}}</div>
         </div>
         </li>
       </ul>
     </div>    
-  </template>
+</template>
 
-  <script>
+<script>
   import axios from 'axios'
-
   export default {
     data () {
         return {
@@ -58,7 +61,34 @@
   };
 </script>
   
-  <style>
-  
-  </style>
+<style scoped>
+    .house-details {
+        font-family: sans-serif;
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .house {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .image {
+        width: 500px;
+        height: 500px;        
+    }
+
+    .detail-street {
+        font-weight: bold;
+        margin-bottom: 5px;
+        font-size: 25px;
+    }
+
+    .detail {
+        margin-bottom: 5px;
+    }
+
+</style>
   

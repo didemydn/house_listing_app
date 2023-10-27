@@ -62,7 +62,7 @@ export default {
 <template>
   <div class="house-list">
       <h1>Houses</h1>
-
+      <router-link :to="'/houses/create'">+ CREATE NEW</router-link>
       <!--Search for a house-->
       <input v-model="searchQuery" placeholder="Search for a house"/> 
       <!--Display the results-->
