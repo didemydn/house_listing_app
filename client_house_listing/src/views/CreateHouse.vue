@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>Create New Listing</h1>
-            <form @submit="postHouse" method='post'>
+            <form @submit.prevent="postHouse">
              <label>Street Name*</label>
              <input type="text" required v-model="streetName">
 
@@ -79,23 +79,22 @@ export default {
             //data to be sent to API
             console.log('Starting to post the house data...');
             const newHouse = {
-                location: {
-                    street: this.streetName,
+                
+                    streetName: this.streetName,
                     houseNumber: this.houseNumber,
-                    houseNumberAddition: this.addition,
+                    numberAddition: this.addition,
                     zip: this.postalCode,
                     city: this.city
-                },
+                ,
                 price: parseFloat(this.price),
                 size: parseFloat(this.size),
-                rooms: {
-                    bedrooms: parseInt(this.bedrooms),
-                    bathrooms: parseInt(this.bathrooms)
-                },
+                
+                    bedrooms:parseInt(this.bedrooms),
+                    bathrooms:parseInt(this.bathrooms)
+                ,
                 constructionYear: parseInt(this.constructionYear),
                 description: this.description,
-                hasGarage: this.garage === 'true',
-                madeByMe: false                
+                hasGarage: this.garage === 'true'
             };
 
             //post request to create a new house
@@ -113,6 +112,9 @@ export default {
                 console.log('Response:', response); // Log the response
                 if (response.status === 201) {
                     console.log('New house created successfully');
+                    this.$router.push('/houses');
+
+
                     const id = response.data.id;
                     
                 if (this.image) {
@@ -138,10 +140,6 @@ export default {
                }
             },        
         },        
-
-        beforeMount() {
-    this.postHouse();
-  },
     };
 
 </script>

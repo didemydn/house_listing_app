@@ -31,7 +31,7 @@ const router = createRouter({
     },
     {
       path: '/houses/:id/edit',
-      name: 'editDetail',
+      name: 'editHouse',
       component: EditHouse,
       props: true
     },
