@@ -1,12 +1,12 @@
 <template>
     <div>
         <h1>Create New Listing</h1>
-            <form @submit.prevent="postHouse">
+            <form @submit="postHouse" method='post'>
              <label>Street Name*</label>
              <input type="text" required v-model="streetName">
 
             <label>House Number*</label>
-            <input type="text" required v-model="houseNumber">
+            <input type="number" required v-model="houseNumber">
 
             <label>Addition (optional)</label>
             <input type="text" required v-model="addition">
@@ -17,9 +17,6 @@
             <label>City*</label>
             <input type="text" required v-model="city">
 
-            <label>Upload Picture (PNG or JPG)*</label>
-            <input type="file" accept='image/*' @change="handleImageUpload($event, houseId)">
-
             <label>Price*</label>
             <input type="number" required v-model="price">
 
@@ -27,9 +24,9 @@
             <input type="number" required v-model="size">
 
             <label>Garage*</label>
-            <select v-model="Garage">
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
+            <select v-model="garage">
+                <option value="true">Yes</option>
+                <option value="false">No</option>
             </select>
 
             <label>Bedrooms*</label>
@@ -39,10 +36,13 @@
             <input type="number" required v-model="bathrooms">
 
             <label>Construction Date*</label>
-            <input type="text" required v-model="constructionDate">
+            <input type="text" required v-model="constructionYear">
 
             <label>Description*</label>        
             <textarea required v-model="description"></textarea>
+
+            <label>Upload picture (PNG or JPG)*</label>
+            <input type="file" ref="fileInput" required @change="handleFileChange">
 
             <button type="submit">POST</button>
 
@@ -54,93 +54,94 @@
 import axios from 'axios';
 export default {
     data () {
-        return {
+        return {           
            streetName: '',
            houseNumber: '',
            addition: '',
-           postalCode: '',
+           postalCode: null,
            city: '',
-           price: '',
-           size: '',
-           garage: '',
-           bedrooms: '',
-           bathrooms: '',
-           constructionDate: '',
+           price: null,
+           size: null,
+           garage: 'false',
+           bedrooms: null,
+           bathrooms: null,
+           constructionYear: '',
            description: '', 
-        };
+           image: null,
+        }
     },
 
     methods: {
+        handleFileChange(event) {
+            this.image = event.target.files[0];
+        },
         async postHouse() {
             //data to be sent to API
+            console.log('Starting to post the house data...');
             const newHouse = {
-                streetName: this.streetName,
-                houseNumber: this.houseNumber,
-                addition: this.addition,
-                postalCode: this.postalCode,
-                city: this.city,
-                price: this.price,
-                size: this.size,
-                garage: this.garage,
-                bedrooms: this.bedrooms,
-                bathrooms: this.bathrooms,
-                constructionDate: this.constructionDate,
+                location: {
+                    street: this.streetName,
+                    houseNumber: this.houseNumber,
+                    houseNumberAddition: this.addition,
+                    zip: this.postalCode,
+                    city: this.city
+                },
+                price: parseFloat(this.price),
+                size: parseFloat(this.size),
+                rooms: {
+                    bedrooms: parseInt(this.bedrooms),
+                    bathrooms: parseInt(this.bathrooms)
+                },
+                constructionYear: parseInt(this.constructionYear),
                 description: this.description,
+                hasGarage: this.garage === 'true',
+                madeByMe: false                
             };
 
             //post request to create a new house
             try {
+                console.log('Sending a POST request to the API...');
                 const response = await axios.post(
                     'https://api.intern.d-tt.nl/api/houses', 
                     newHouse, 
                     {
                 headers: {
                     'X-Api-Key': 'tMwx41d-hU2ej_r6PcpQkymCIHTSauFE',
-                    },        
-                    }
-             );
+                    },    
+                }
+                );
+                console.log('Response:', response); // Log the response
                 if (response.status === 201) {
-                    const createdHouse = response.data;
-                    const houseId = createdHouse.id; //new house Id, need to upload an image to API
-                    await this.uploadImage(houseId);
-                } else {
+                    console.log('New house created successfully');
+                    const id = response.data.id;
+                    
+                if (this.image) {
+                    const formData = new FormData();
+                    formData.append('image', this.image);
+                    const imageUpload = await axios.post(`https://api.intern.d-tt.nl/api/houses/${id}/upload`,
+                     formData,
+                     {
+                        headers: {
+                            'X-Api-Key': 'tMwx41d-hU2ej_r6PcpQkymCIHTSauFE',
+                            'Content-Type': 'multipart/form-data',                        
+                        }
+                     }
+                    );
+                    console.log('image uploaded:', imageUpload);
+                }
+                
+            } else {
                     console.error('failed to create a new house. Status code:', response.status);
-                }                              
+                }
                } catch (error) {
                 console.error('Error creating a new house:', error);
                }
-        },    
-        
-        async uploadImage(houseId) {
-            const fileData = this.$refs.imageUpload; 
-            const file = fileData.files[0];
-
-            if (!file) {
-                console.log('no image selected for upload.');
-                return;
-            }
-
-            try {
-                const formData = newformData();
-                formData.append('image', file);
-
-                await axios.post(
-                    `https://api.intern.d-tt.nl/api/houses/${houseId}/upload`,
-          formData,
-          {
-            headers: {
-              'X-Api-Key': 'tMwx41d-hU2ej_r6PcpQkymCIHTSauFE',
-              'Content-Type': 'multipart/form-data',
-            },
-          }
-                );
-
-                console.log('image uploaded successfully');
-            } catch (error) {
-                console.log('error uploading the image',error);
-            }
-        },
+            },        
         },        
+
+        beforeMount() {
+    this.postHouse();
+  },
     };
 
 </script>
