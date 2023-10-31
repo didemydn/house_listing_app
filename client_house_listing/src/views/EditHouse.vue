@@ -1,7 +1,7 @@
 <template>
     <div>
-        <h1>Create New Listing</h1>
-            <form @submit.prevent="postHouse">
+        <h1>Edit Listing</h1>
+            <form @submit.prevent="editHouse">
              <label>Street Name*</label>
              <input type="text" required v-model="streetName">
 
@@ -44,7 +44,7 @@
             <label>Upload picture (PNG or JPG)*</label>
             <input type="file" ref="fileInput" required @change="handleFileChange">
 
-            <button type="submit">POST</button>
+            <button type="submit">UPDATE</button>
 
         </form>
     </div>
@@ -54,11 +54,11 @@
 import axios from 'axios';
 export default {
     data () {
-        return {         
-           StreetName: '',
+        return {                    
+           streetName: '',
            houseNumber: '',
            addition: '',
-           postalCode: null,
+           postalCode: '',
            city: '',
            price: null,
            size: null,
@@ -67,35 +67,59 @@ export default {
            bathrooms: null,
            constructionYear: '',
            description: '', 
-           image: null
+           image: null            
            };     
     },
 
     mounted(){
-        //console.log(this.$route.params.id);
-        this.getHouse(this.$route.params.id)
+        this.getHouse()
     },
 
     methods: {
-
-        getHouse(id){
-            axios.get(`https://api.intern.d-tt.nl/api/houses/${id}`).then((res) => {
-                this.house = response.data.house;
+        getHouse(){
+            axios.get(`https://api.intern.d-tt.nl/api/houses/${id}`)
+            .then((res) => {
+                console.log(res.data.house);
+                const house = res.data.house;
+                this.streetName = house.location.streetName;
+                this.houseNumber = house.location.houseNumber;
+                this.addition = house.location.numberAddition;
+                this.postalCode = house.location.zip;
+                this.city = house.location.city;
+                this.price = house.price;
+                this.size = house.size;
+                this.garage = house.hasGarage ? 'true' : 'false';
+                this.bedrooms = house.rooms.bedrooms;
+                this.bathrooms = house.rooms.bathrooms;
+                this.constructionYear = house.constructionYear;
+                this.description = house.description;
             });
         },
 
         handleFileChange(event) {
-            this.house.image = event.target.files[0];
+            this.image = event.target.files[0];
         },
         async editHouse() {           
             //edit the existing house
+            const id = this.$route.params.id;
             try {
                 console.log('Sending to update the house...');
-                const id = this.$route.params.id;
-
-                const response = await axios.put(
-                    `https://api.intern.d-tt.nl/api/houses/${id}`, 
-                    this.house, 
+                const response = await axios.post(
+                    `https://api.intern.d-tt.nl/api/houses/${id}`,                    
+                    {
+                       streetName: this.streetName,
+                       houseNumber: this.houseNumber,
+                      numberAddition: this.addition,
+                      zip: this.postalCode,
+                      city: this.city,
+                      price: parseFloat(this.price),
+                      size: parseFloat(this.size),                
+                      bedrooms:parseInt(this.bedrooms),
+                      bathrooms:parseInt(this.bathrooms),
+                      constructionYear: parseInt(this.constructionYear),
+                      description: this.description,
+                      hasGarage: this.garage === 'true'
+                    }, 
                     {
                 headers: {
                     'X-Api-Key': 'tMwx41d-hU2ej_r6PcpQkymCIHTSauFE',

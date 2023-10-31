@@ -57,6 +57,25 @@
                 console.log(error);
             }
         },
+
+        async deleteHouse(id) {
+            try {
+                const response = await axios.delete(`https://api.intern.d-tt.nl/api/houses/${id}`,{
+                    headers: {
+                        'X-Api-Key': 'tMwx41d-hU2ej_r6PcpQkymCIHTSauFE',
+                    },
+                });
+
+                if (response.status === 200 ) {
+                    console.log('House deleted successfully');
+                    this.$router.push('/houses');
+                } else {
+                    console.log('failed to delete the house', response.status)
+                }
+            } catch (error) {
+                console.log('error deleting the house', error);
+            }
+        },
     },
   };
 </script>
