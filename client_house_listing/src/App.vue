@@ -63,6 +63,7 @@ export default {
 
 .nav-links {
   display: flex;
+  align-items: center;
 }
 
 .nav-links .nav-router {
@@ -80,8 +81,11 @@ export default {
 }
 
 .logo {
-  display: block;
-  margin: 0 auto 2rem;
+  display: flex;
+  margin-top: 10px;
+  margin-left: 50px;
+  justify-content: center;
+  align-items: center;
 }
 
 </style>

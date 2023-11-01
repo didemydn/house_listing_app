@@ -79,44 +79,71 @@ export default {
         <button @click="sortByOption('size')">Size</button>
       </div>
 
-
-      <ul>
-        <li v-for="house in sortedHouses" :key="house.id" class="house">
+      
+        <div v-for="house in sortedHouses" :key="house.id" class="house">
           <router-link :to="'/houses/' + house.id">
-          <img :src="house.image" alt="house_img" class="image">
+          <div class="image-container">
+            <img :src="house.image" alt="house_img" class="image">
+          </div>
+        
           <div class="house-details"> 
-          <div>{{ house.location.street}}-{{ house.location.houseNumber }}</div>
-          <div>€{{ house.price }}</div>
-          <div>{{ house.location.zip }}</div>
-          <div>{{ house.location.city }}</div>
-          <div>{{ house.size }}m2</div>
-          <div>{{ house.rooms.bedrooms }}</div>
-          <div>{{ house.rooms.bathrooms }}</div>
-        </div>
+            <h1>deneme</h1>  
+          </div>
+      
       </router-link>
-        </li>
-      </ul>
+    </div>      
     </div>
 </template>
 
 
 <style scoped>
+
   .house-list {
-  margin: 2rem 0;
+  margin-left: 30px;
+  margin-right: 30px;
+  background-color: #F6F6F6;  
+}
+
+.house-list h1 {
+  margin-left: 80px;
+  margin-top: 30px;
+  background-color: #F6F6F6;  
 }
 
 .house {
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 1rem;
-  margin: 1rem 0;
+  margin: 10px;
+  margin-right: 150px;
+  margin-left: 150px;
   display: flex;
   align-items: center;
+  background-color: #FFFFFF;
+  flex-direction: row;
+  
 }
-.house .image {
+
+.image-container {
   width: 100px;
   height: 100px;
   margin-right: 1rem;
+  border-radius: 10%;
+  display: flex;
+  align-items: center;
+}
+.house-details{
+  display: flex;
+}
+.house-details-list {  
+  list-style-type: none;
+  margin-right: 100px;
+}
+
+.image {
+  width: 100px;
+  height: 100px;
+  border-radius: 20%;
 }
 
 .house h2{
@@ -126,6 +153,7 @@ export default {
 .house p{
   font-size: 1.5rem;
 }
+
 
 </style>
 
