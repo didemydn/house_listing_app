@@ -61,17 +61,21 @@ export default {
 
 <template>
   <div class="house-list">
-    <div> 
-       <h1>Houses</h1>
+    <div>
+      <ul class="head-first"> 
+        <li><h1>Houses</h1></li>
 
-      <div> 
+        <li> 
         <router-link :to="'/houses/create'"  class="create-new">+ CREATE NEW</router-link>
-      </div>
-      
+        </li>
+      </ul>
+    </div>
+    <div> 
+      <ul class="head-second"> 
       <!--Search for a house-->
-      <div class="search-house"> 
+      <li class="search-house"> 
         <input v-model="searchQuery" placeholder="Search for a house"/> 
-      </div>
+      </li>
 
       <!--Display the results-->
       <p v-if="searchQuery && filteredHouses.length > 0">
@@ -82,11 +86,12 @@ export default {
       </p>
              
       <!--Sort button for price and size-->
-      <div class="sort-buttons">
-        <button @click="sortByOption('price')">Price</button>
-        <button @click="sortByOption('size')">Size</button>
-      </div>
-    </div>
+      <li class="sort-buttons">
+        <button class="price" @click="sortByOption('price')">Price</button>
+        <button class="size" @click="sortByOption('size')">Size</button>
+      </li>
+    </ul>
+  </div>
       
       <div v-for="house in sortedHouses" :key="house.id" class="house">
           <router-link :to="'/houses/' + house.id" style="text-decoration: none;">
@@ -101,7 +106,7 @@ export default {
                 {{ house.rooms.bedrooms }} 
                 <img src="@/assets/bath-icon.png" alt="Bath Icon" class="icon">
                 {{ house.rooms.bathrooms }} 
-                <img src="@/assets/size-icon.png" alt="Bedroom Icon" class="icon">
+                <img src="@/assets/size-icon.png" alt="Size Icon" class="icon">
                 {{ house.size }}m2</li>              
             </ul>         
           </ul>
@@ -119,10 +124,38 @@ export default {
  text-decoration: none;
  color: white;
  padding: 5px 10px;
- font-weight: bold; 
- 
+ font-weight: bold;  
 }
 
+.head-first {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.head-second {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.price {
+ background-color: #EB5440;
+ color: white;
+ padding: 5px 20px;
+ font-weight: bold;
+ border-radius: 10%;
+}
+
+.size {
+ background-color: #C3C3C3;
+ color: white;
+ padding: 5px 20px;
+ font-weight: bold;
+ border-radius: 10%;
+}
 
   .house-list {
   margin-left: 30px;

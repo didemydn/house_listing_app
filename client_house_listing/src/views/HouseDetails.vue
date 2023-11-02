@@ -1,27 +1,26 @@
 <template>
-    <div class="house-details">
+    <div style="background-color: #F6F6F6;">
       <h1>Houses</h1>
-        <ul>
-            
-        <li v-for="house in houses" :key="house.id" class="house">
-          <img :src="house.image" alt="house_img" class="image">     
-          <div class="buttons">
-            <router-link :to="'/houses/' + house.id + '/edit'">Edit</router-link>
-            <button @click="deleteHouse(house.id)">Delete</button>
-        </div>     
-          <div class="house-details"> 
-            <div class="detail-street">{{ house.location.street}}-{{ house.location.houseNumber }}</div>
-            <div class="detail">€{{ house.price }}</div>
-            <div class="detail">{{ house.location.zip }}</div>
-            <div class="detail">{{ house.location.city }}</div>
-            <div class="detail">{{ house.size }}m2</div>
-            <div class="detail">{{ house.rooms.bedrooms }}</div>
-            <div class="detail">{{ house.rooms.bathrooms }}</div>
-            <div class="detail">{{ house.hasGarages }}</div> 
-            <div class="detail">{{ house.constructionYear }}</div> 
-            <div class="=detail">{{ house.description}}</div>
-        </div>
-        </li>
+        <ul v-for="house in houses" :key="house.id" class="house-details">
+          <li class="image-cont"><img :src="house.image" alt="house_img" class="image"></li>     
+          <li class="buttons">
+            <router-link :to="'/houses/' + house.id + '/edit'" style="text-decoration: none;"><img src="@/assets/edit-icon.png" alt="Edit Icon" class="icon"></router-link>
+            <button @click="deleteHouse(house.id)" class="delete-button"><img src="@/assets/delete-icon.png" alt="Delete Icon" class="icon"></button>
+          </li>     
+          <ul class="house-info"> 
+            <li class="detail" style="font-size: 22px; font-weight: bold;">{{ house.location.street}}-{{ house.location.houseNumber }}</li>
+            <li class="detail">
+                <img src="@/assets/location-icon.png" alt="Location Icon" class="icon"> {{ house.location.zip }} {{ house.location.city }}</li>           
+            <li class="detail">
+                <img src="@/assets/euro-icon.jpg" alt="Price Icon" class="icon"> {{ house.price }}
+                <img src="@/assets/size-icon.png" alt="Size Icon" class="icon"> {{ house.size }}m2
+                <img src="@/assets/built-icon.png" alt="Built Icon" class="icon"> Built in {{ house.constructionYear }}</li>
+            <li class="detail">
+                <img src="@/assets/bedroom-icon.png" alt="Bedroom Icon" class="icon"> {{ house.rooms.bedrooms }}
+                <img src="@/assets/bath-icon.png" alt="Bath Icon" class="icon"> {{ house.rooms.bathrooms }}
+                <img src="@/assets/garage-icon.png" alt="Garage Icon" class="icon"> {{ house.hasGarages }}</li>            
+            <li class="=detail">{{ house.description}}</li>
+          </ul>
       </ul>
     </div>    
 </template>
@@ -82,10 +81,38 @@
   
 <style scoped>
     .house-details {
-        font-family: sans-serif;
+        background-color: white;
         max-width: 400px;
         margin: 0 auto;
         padding: 20px;
+        list-style-type: none;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        font-family: 'Open Sans', sans-serif; 
+    }    
+    .buttons {   
+    padding: 5px 10px;
+    font-weight: bold;  
+    display: flex;
+    flex-direction: row;
+    }
+
+    .delete-button {
+        background-color: transparent;
+        border: none;
+    }
+
+    .house-info {
+        background-color: white;
+        max-width: 400px;
+        margin-bottom: 20px;       
+        padding: 20px;
+        list-style-type: none;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        font-family: 'Open Sans', sans-serif; 
     }
 
     .house {
@@ -93,21 +120,26 @@
         flex-direction: column;
         align-items: center;
     }
-
     .image {
-        width: 500px;
-        height: 500px;        
-    }
+        width: 300px;
+        height: 300px;  
+           
+    }   
 
-    .detail-street {
-        font-weight: bold;
-        margin-bottom: 5px;
-        font-size: 25px;
-    }
+    
+.icons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: flex-end;
+}
 
-    .detail {
-        margin-bottom: 5px;
-    }
+.icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
 
 </style>
   

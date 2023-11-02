@@ -1,48 +1,83 @@
 <template>
-    <div>
+    <div class="create-listing">
         <h1>Create New Listing</h1>
             <form @submit.prevent="postHouse">
-             <label>Street Name*</label>
-             <input type="text" required v-model="streetName">
+                <div class="form">
+                    <label>Street Name*</label>
+                    <input type="text" required v-model="streetName">
+                </div>
 
-            <label>House Number*</label>
-            <input type="number" required v-model="houseNumber">
+                <div class="form">
+                    <label>House Number*</label>
+                    <input type="number" required v-model="houseNumber">
+                </div>
 
-            <label>Addition (optional)</label>
-            <input type="text" required v-model="addition">
+                <div class="form">
+                    <label>Addition (optional)</label>
+                    <input type="text" required v-model="addition">
+                </div>
 
-            <label>Postal code*</label>
-            <input type="text" required v-model="postalCode">
+                <div class="form">
+                    <label>Postal code*</label>
+                    <input type="text" required v-model="postalCode">
+                </div>
+
+                <div class="form">
 
             <label>City*</label>
             <input type="text" required v-model="city">
+        </div>
+
+            <div class="form">
 
             <label>Price*</label>
             <input type="number" required v-model="price">
+        </div>
+
+            <div class="form">
 
             <label>Size*</label>
             <input type="number" required v-model="size">
+        </div>
 
+            <div class="form">
             <label>Garage*</label>
             <select v-model="garage">
                 <option value="true">Yes</option>
                 <option value="false">No</option>
             </select>
+        </div>
+
+
+            <div class="form">
 
             <label>Bedrooms*</label>
             <input type="number" required v-model="bedrooms">
+        </div>
+
+            <div class="form">
 
             <label>Bathrooms*</label>
             <input type="number" required v-model="bathrooms">
+        </div>
+
+            <div class="form">
 
             <label>Construction Date*</label>
             <input type="text" required v-model="constructionYear">
+        </div>
+
+            <div class="form">
 
             <label>Description*</label>        
             <textarea required v-model="description"></textarea>
+        </div>
+
+            <div class="form">
 
             <label>Upload picture (PNG or JPG)*</label>
             <input type="file" ref="fileInput" required @change="handleFileChange">
+        </div>
 
             <button type="submit">POST</button>
 
@@ -145,4 +180,51 @@ export default {
 </script>
 
 <style>
+
+.create-listing {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: 0 auto;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.form-group {
+  margin: 10px 0;
+}
+
+label {
+  font-weight: bold;
+}
+
+textarea {
+  height: 100px;
+}
+
+button {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+select,
+input[type="text"],
+input[type="number"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+
 </style>
