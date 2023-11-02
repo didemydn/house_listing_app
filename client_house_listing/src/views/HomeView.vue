@@ -61,10 +61,18 @@ export default {
 
 <template>
   <div class="house-list">
-      <h1>Houses</h1>
-      <router-link :to="'/houses/create'">+ CREATE NEW</router-link>
+    <div> 
+       <h1>Houses</h1>
+
+      <div> 
+        <router-link :to="'/houses/create'"  class="create-new">+ CREATE NEW</router-link>
+      </div>
+      
       <!--Search for a house-->
-      <input v-model="searchQuery" placeholder="Search for a house"/> 
+      <div class="search-house"> 
+        <input v-model="searchQuery" placeholder="Search for a house"/> 
+      </div>
+
       <!--Display the results-->
       <p v-if="searchQuery && filteredHouses.length > 0">
       {{ filteredHouses.length }} {{ filteredHouses.length > 1 ? 'results' : 'result' }} founded
@@ -72,36 +80,55 @@ export default {
       <p v-else-if="searchQuery && filteredHouses.length === 0">      
         No results found. Please try another keyword. 
       </p>
-       
+             
       <!--Sort button for price and size-->
       <div class="sort-buttons">
         <button @click="sortByOption('price')">Price</button>
         <button @click="sortByOption('size')">Size</button>
       </div>
-
+    </div>
       
-        <div v-for="house in sortedHouses" :key="house.id" class="house">
-          <router-link :to="'/houses/' + house.id">
-          <div class="image-container">
-            <img :src="house.image" alt="house_img" class="image">
-          </div>
+      <div v-for="house in sortedHouses" :key="house.id" class="house">
+          <router-link :to="'/houses/' + house.id" style="text-decoration: none;">
+          <ul class="house-box">
+            <li><img :src="house.image" alt="house_img" class="image"></li>
+            <ul class="house-details">        
+              <li class="item" style="font-size: 18px; font-weight: bold;">{{ house.location.street}}-{{ house.location.houseNumber }}</li>
+              <li class="item">€{{ house.price }}</li>
+              <li class="item">{{ house.location.zip }} {{ house.location.city }}</li>             
+              <li class="item icons">
+                <img src="@/assets/bedroom-icon.png" alt="Bedroom Icon" class="icon">
+                {{ house.rooms.bedrooms }} 
+                <img src="@/assets/bath-icon.png" alt="Bath Icon" class="icon">
+                {{ house.rooms.bathrooms }} 
+                <img src="@/assets/size-icon.png" alt="Bedroom Icon" class="icon">
+                {{ house.size }}m2</li>              
+            </ul>         
+          </ul>
         
-          <div class="house-details"> 
-            <h1>deneme</h1>  
-          </div>
-      
       </router-link>
     </div>      
-    </div>
+  </div>
 </template>
 
 
 <style scoped>
 
+.create-new {
+ background-color: #EB5440;
+ text-decoration: none;
+ color: white;
+ padding: 5px 10px;
+ font-weight: bold; 
+ 
+}
+
+
   .house-list {
   margin-left: 30px;
   margin-right: 30px;
   background-color: #F6F6F6;  
+  font-family: 'Open Sans', sans-serif;  
 }
 
 .house-list h1 {
@@ -115,29 +142,47 @@ export default {
   border-radius: 10px;
   padding: 1rem;
   margin: 10px;
-  margin-right: 150px;
-  margin-left: 150px;
+  margin-right: 250px;
+  margin-left: 250px;
   display: flex;
   align-items: center;
   background-color: #FFFFFF;
-  flex-direction: row;
-  
+  flex-direction: row;  
 }
 
-.image-container {
-  width: 100px;
-  height: 100px;
-  margin-right: 1rem;
-  border-radius: 10%;
+.house-box {
   display: flex;
-  align-items: center;
+  flex-direction: row;
+  align-items: flex-start;
+  list-style-type: none; 
 }
-.house-details{
+
+.house-details {
   display: flex;
-}
-.house-details-list {  
+  flex-direction: column;
   list-style-type: none;
-  margin-right: 100px;
+  color: black;
+}
+
+.item {
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.icons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: flex-end;
+}
+
+.icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
 }
 
 .image {
@@ -145,15 +190,5 @@ export default {
   height: 100px;
   border-radius: 20%;
 }
-
-.house h2{
-  font-size: 1.5rem;
-}
-
-.house p{
-  font-size: 1.5rem;
-}
-
-
 </style>
 
