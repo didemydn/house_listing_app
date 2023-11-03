@@ -15,7 +15,12 @@ export default {
     //filter houses as per search button
     filteredHouses() {
       return this.houses.filter((house) => {
-        return house.location.city.toLowerCase().includes(this.searchQuery.toLowerCase());
+        const streetSearch=house.location.street.toLowerCase().includes(this.searchQuery.toLowerCase());
+        const citySearch=house.location.city.toLowerCase().includes(this.searchQuery.toLowerCase());
+        const priceSearch=house.price === Number(this.searchQuery);
+        const zipSearch=house.location.zip.toLowerCase().includes(this.searchQuery.toLowerCase());
+        const sizeSearch=house.size === Number(this.searchQuery);
+        return streetSearch || citySearch || priceSearch || zipSearch ||sizeSearch;
       });
     },
 

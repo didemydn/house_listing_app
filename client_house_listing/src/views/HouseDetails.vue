@@ -5,7 +5,7 @@
           <li class="image-cont"><img :src="house.image" alt="house_img" class="image"></li>     
           <li class="buttons">
             <router-link :to="'/houses/' + house.id + '/edit'" style="text-decoration: none;"><img src="@/assets/edit-icon.png" alt="Edit Icon" class="icon"></router-link>
-            <button @click="deleteHouse(house.id)" class="delete-button"><img src="@/assets/delete-icon.png" alt="Delete Icon" class="icon"></button>
+            <button @click="confirmDelete(house.id)" class="delete-button"><img src="@/assets/delete-icon.png" alt="Delete Icon" class="icon"></button>
           </li>     
           <ul class="house-info"> 
             <li class="detail" style="font-size: 22px; font-weight: bold;">{{ house.location.street}}-{{ house.location.houseNumber }}</li>
@@ -18,7 +18,9 @@
             <li class="detail">
                 <img src="@/assets/bedroom-icon.png" alt="Bedroom Icon" class="icon"> {{ house.rooms.bedrooms }}
                 <img src="@/assets/bath-icon.png" alt="Bath Icon" class="icon"> {{ house.rooms.bathrooms }}
-                <img src="@/assets/garage-icon.png" alt="Garage Icon" class="icon"> {{ house.hasGarages }}</li>            
+                <img src="@/assets/garage-icon.png" alt="Garage Icon" class="icon">
+                <span v-if="house.hasGarage">Yes</span>
+                <span v-else>No</span></li>            
             <li class="=detail">{{ house.description}}</li>
           </ul>
       </ul>
@@ -33,6 +35,7 @@
             houses: [],
         };
     },
+
     created() {
         const houseId = this.$route.params.id; //retrieve the house id from route parameter
         console.log('House ID:', houseId); // Log the houseId
@@ -57,6 +60,13 @@
             }
         },
 
+        confirmDelete(id) {
+            const askDelete = window.confirm('Are you sure? You will delete this house.');
+            if (askDelete) {
+                this.deleteHouse(id);
+            }
+        },
+
         async deleteHouse(id) {
             try {
                 const response = await axios.delete(`https://api.intern.d-tt.nl/api/houses/${id}`,{
@@ -65,7 +75,7 @@
                     },
                 });
 
-                if (response.status === 200 ) {
+                if (response.status === 200 || 204) {
                     console.log('House deleted successfully');
                     this.$router.push('/houses');
                 } else {
@@ -96,6 +106,7 @@
     font-weight: bold;  
     display: flex;
     flex-direction: row;
+    align-items: center;
     }
 
     .delete-button {

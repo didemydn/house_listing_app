@@ -53,7 +53,7 @@ export default {
 <style scoped>
 .navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
   font-size: 12px;
@@ -67,13 +67,13 @@ export default {
 }
 
 .nav-links .nav-router {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid;
+  display: flex;
+  padding: 5px 10px;
   text-decoration: none;
   color: #C3C3C3;
   transition: 0.4s;
   font-weight: bold;
+  font-size: 18px;
 }
 
 .nav-links .nav-router.active {

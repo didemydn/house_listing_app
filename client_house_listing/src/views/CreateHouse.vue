@@ -14,7 +14,7 @@
 
                 <div class="form">
                     <label>Addition (optional)</label>
-                    <input type="text" required v-model="addition">
+                    <input type="text" v-model="addition">
                 </div>
 
                 <div class="form">
@@ -113,20 +113,16 @@ export default {
         async postHouse() {
             //data to be sent to API
             console.log('Starting to post the house data...');
-            const newHouse = {
-                
-                    streetName: this.streetName,
-                    houseNumber: this.houseNumber,
-                    numberAddition: this.addition,
-                    zip: this.postalCode,
-                    city: this.city
-                ,
+            const newHouse = {                
+                streetName: this.streetName,
+                houseNumber: this.houseNumber,
+                numberAddition: this.addition,
+                zip: this.postalCode,
+                city: this.city,
                 price: parseFloat(this.price),
-                size: parseFloat(this.size),
-                
-                    bedrooms:parseInt(this.bedrooms),
-                    bathrooms:parseInt(this.bathrooms)
-                ,
+                size: parseFloat(this.size),                
+                bedrooms:parseInt(this.bedrooms),
+                bathrooms:parseInt(this.bathrooms),
                 constructionYear: parseInt(this.constructionYear),
                 description: this.description,
                 hasGarage: this.garage === 'true'
@@ -225,6 +221,5 @@ textarea {
   border: 1px solid #ccc;
   border-radius: 5px;
 }
-
 
 </style>
