@@ -115,14 +115,14 @@ export default {
         handleFileChange(event) {
             this.image = event.target.files[0];
         },
-        
+
         async getHouse(id) {
             try {
                 console.log('Fetching data for house ID:', id); // Log the request
                 const response = await axios.get(
                     `https://api.intern.d-tt.nl/api/houses/${id}`,
                     {
-                        headers: {'X-Api-Key': 'tMwx41d-hU2ej_r6PcpQkymCIHTSauFE',
+                        headers: {'X-Api-Key': process.env.API,
                         },
                     }
                 );
@@ -169,7 +169,7 @@ export default {
                     }, 
                     {
                         headers: {
-                            'X-Api-Key': 'tMwx41d-hU2ej_r6PcpQkymCIHTSauFE',
+                            'X-Api-Key': process.env.API,
                         },    
                     }
                 );
@@ -186,7 +186,7 @@ export default {
                             formData,
                             {
                                 headers: {
-                                 'X-Api-Key': 'tMwx41d-hU2ej_r6PcpQkymCIHTSauFE',
+                                 'X-Api-Key': process.env.API,
                                 'Content-Type': 'multipart/form-data',                        
                                 }
                             }

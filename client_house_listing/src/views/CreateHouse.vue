@@ -136,7 +136,7 @@ export default {
                     newHouse, 
                     {
                 headers: {
-                    'X-Api-Key': 'tMwx41d-hU2ej_r6PcpQkymCIHTSauFE',
+                    'X-Api-Key': process.env.API,
                     },    
                 }
                 );
@@ -155,7 +155,7 @@ export default {
                      formData,
                      {
                         headers: {
-                            'X-Api-Key': 'tMwx41d-hU2ej_r6PcpQkymCIHTSauFE',
+                            'X-Api-Key': process.env.API,
                             'Content-Type': 'multipart/form-data',                        
                         }
                      }

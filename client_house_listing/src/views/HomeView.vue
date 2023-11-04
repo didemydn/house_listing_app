@@ -8,6 +8,7 @@ export default {
       houses: [],
       searchQuery: '',
       sortBy: '',
+      activeSortButton:'',
     };    
   },
 
@@ -43,7 +44,7 @@ export default {
         const response = await axios.get(
           'https://api.intern.d-tt.nl/api/houses', {
       headers: {
-        'X-Api-Key': 'tMwx41d-hU2ej_r6PcpQkymCIHTSauFE',
+        'X-Api-Key': process.env.VUE_APP_API_KEY,
       },
     }
     );
@@ -55,20 +56,22 @@ export default {
 
     sortByOption(option) {
     this.sortBy = option;
-  },  
+    this.activeSortButton = option;
+    },  
   }, 
 
   created() {
     this.getData();
   },
 };
+
 </script>
 
 <template>
   <div class="house-list">
     <div>
       <ul class="head-first"> 
-        <li><h1>Houses</h1></li>
+        <li class="head-houses"><h1>Houses</h1></li>
 
         <li> 
         <router-link :to="'/houses/create'"  class="create-new">+ CREATE NEW</router-link>
@@ -92,8 +95,8 @@ export default {
              
       <!--Sort button for price and size-->
       <li class="sort-buttons">
-        <button class="price" @click="sortByOption('price')">Price</button>
-        <button class="size" @click="sortByOption('size')">Size</button>
+        <button class="price" @click="sortByOption('price')" :class=" { active: activeSortButton === 'price'}">Price</button>
+        <button class="size" @click="sortByOption('size')" :class=" { active: activeSortButton === 'size'}">Size</button>
       </li>
     </ul>
   </div>
@@ -103,7 +106,7 @@ export default {
           <ul class="house-box">
             <li><img :src="house.image" alt="house_img" class="image"></li>
             <ul class="house-details">        
-              <li class="item" style="font-size: 18px; font-weight: bold;">{{ house.location.street}}-{{ house.location.houseNumber }}</li>
+              <li class="item" style="font-size: 16px; font-weight: bold;">{{ house.location.street}}-{{ house.location.houseNumber }}</li>
               <li class="item">€{{ house.price }}</li>
               <li class="item">{{ house.location.zip }} {{ house.location.city }}</li>             
               <li class="item icons">
@@ -123,7 +126,6 @@ export default {
 
 
 <style scoped>
-
 .create-new {
  background-color: #EB5440;
  text-decoration: none;
@@ -142,12 +144,16 @@ export default {
 .head-second {
   list-style-type: none;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
 }
 
+.search-house {
+  margin-right: 60px;
+}
+
 .price {
- background-color: #EB5440;
+ background-color: #C3C3C3;
  color: white;
  padding: 5px 20px;
  font-weight: bold;
@@ -162,11 +168,15 @@ export default {
  border-radius: 10%;
 }
 
-  .house-list {
-  margin-left: 30px;
-  margin-right: 30px;
-  background-color: #F6F6F6;  
-  font-family: 'Open Sans', sans-serif;  
+.price.active, .size.active {
+  background-color: #EB5440;
+}
+
+.house-list {
+ margin-left: 30px;
+ margin-right: 30px;
+ background-color: #F6F6F6;  
+ font-family: 'Open Sans', sans-serif;  
 }
 
 .house-list h1 {
@@ -227,6 +237,61 @@ export default {
   width: 100px;
   height: 100px;
   border-radius: 20%;
+}
+
+@media (max-width: 768px) {
+  .create-new {
+    font-size: 16px;
+  }
+  
+  .head-first {
+    flex-direction: row;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: baseline;
+    padding: 5px;
+  }
+
+  .head-second {
+    flex-direction: row;
+    display: flex;
+    padding: 5px;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .search-house {
+    margin-right: 0;
+  }
+
+  .price, .size {
+    padding: 5px 10px;
+  }
+
+  .house {
+    margin-right: 10px;
+    margin-left: 10px;
+    flex-direction: column;
+  }
+
+  .house-box {
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+    flex-wrap: nowrap;
+    padding-left: 5px;
+}
+
+  .house-details {
+    font-size: 12px;
+    padding-left: 3px;
+  }
+
+  .house-list h1 {
+    margin-bottom: 10px;
+    margin-left: 0;
+    font-size: 16px;
+  }
 }
 </style>
 

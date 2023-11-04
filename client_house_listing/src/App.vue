@@ -88,4 +88,24 @@ export default {
   align-items: center;
 }
 
+@media (max-width: 768px) {
+  .navbar {
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .nav-links {
+    flex-direction: column;
+  }
+
+  .nav-links .nav-router {
+    padding: 10px 0;
+  }
+
+  .logo {
+    margin: 10px 0;
+  }
+  
+}
 </style>

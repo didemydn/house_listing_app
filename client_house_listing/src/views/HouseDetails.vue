@@ -49,7 +49,7 @@
                 const response = await axios.get(
                     `https://api.intern.d-tt.nl/api/houses/${id}`,
                     {
-                        headers: {'X-Api-Key': 'tMwx41d-hU2ej_r6PcpQkymCIHTSauFE',
+                        headers: {'X-Api-Key': process.env.API,
                         },
                     }
                 );
@@ -71,7 +71,7 @@
             try {
                 const response = await axios.delete(`https://api.intern.d-tt.nl/api/houses/${id}`,{
                     headers: {
-                        'X-Api-Key': 'tMwx41d-hU2ej_r6PcpQkymCIHTSauFE',
+                        'X-Api-Key': process.env.API,
                     },
                 });
 
@@ -152,5 +152,15 @@
   margin-right: 5px;
 }
 
+@media (max-width: 768px) {
+    .house-details {
+      max-width: 100%; 
+    }
+
+    .image {
+      width: 100%; 
+      height: auto; 
+    }
+  }
 </style>
   
