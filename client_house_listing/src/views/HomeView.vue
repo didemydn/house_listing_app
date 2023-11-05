@@ -44,7 +44,7 @@ export default {
         const response = await axios.get(
           'https://api.intern.d-tt.nl/api/houses', {
       headers: {
-        'X-Api-Key': process.env.VUE_APP_API_KEY,
+        'X-Api-Key': import.meta.env.VITE_APP_API_KEY,
       },
     }
     );

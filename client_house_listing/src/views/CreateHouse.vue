@@ -136,7 +136,7 @@ export default {
                     newHouse, 
                     {
                 headers: {
-                    'X-Api-Key': process.env.API,
+                    'X-Api-Key': import.meta.env.VITE_APP_API_KEY,
                     },    
                 }
                 );
@@ -155,7 +155,7 @@ export default {
                      formData,
                      {
                         headers: {
-                            'X-Api-Key': process.env.API,
+                            'X-Api-Key': import.meta.env.VITE_APP_API_KEY,
                             'Content-Type': 'multipart/form-data',                        
                         }
                      }

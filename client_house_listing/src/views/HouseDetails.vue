@@ -49,7 +49,7 @@
                 const response = await axios.get(
                     `https://api.intern.d-tt.nl/api/houses/${id}`,
                     {
-                        headers: {'X-Api-Key': process.env.API,
+                        headers: {'X-Api-Key': import.meta.env.VITE_APP_API_KEY,
                         },
                     }
                 );
@@ -71,7 +71,7 @@
             try {
                 const response = await axios.delete(`https://api.intern.d-tt.nl/api/houses/${id}`,{
                     headers: {
-                        'X-Api-Key': process.env.API,
+                        'X-Api-Key': import.meta.env.VITE_APP_API_KEY,
                     },
                 });
 

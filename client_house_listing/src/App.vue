@@ -33,7 +33,7 @@ export default {
         const response = await axios.get(
           'https://api.intern.d-tt.nl/api/houses', {
       headers: {
-        'X-Api-Key': 'tMwx41d-hU2ej_r6PcpQkymCIHTSauFE',
+        'X-Api-Key': import.meta.env.VITE_APP_API_KEY,
       },
     }
     );
