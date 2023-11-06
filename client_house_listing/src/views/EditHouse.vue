@@ -88,7 +88,7 @@ import axios from 'axios';
 export default {
     data () {
         return {                    
-            houses: [],   
+            houses: [],   //to store house data 
             streetName: '',
             houseNumber: '',
             addition: '',
@@ -105,18 +105,17 @@ export default {
         };     
     },
 
-    mounted(){
+    mounted(){ //get the house data to fill again 
         const id = this.$route.params.id; 
         this.getHouse(id);
     },
 
-    methods: {
-
+    methods: { //handle file input for the house img
         handleFileChange(event) {
             this.image = event.target.files[0];
         },
 
-        async getHouse(id) {
+        async getHouse(id) { //get the house data for editing 
             try {
                 console.log('Fetching data for house ID:', id); // Log the request
                 const response = await axios.get(
@@ -127,7 +126,7 @@ export default {
                     }
                 );
                 console.log('Response:', response.data); // Log the response data
-                this.houses = response.data;
+                this.houses = response.data; //populate form fields with fetched data 
                 this.streetName = this.houses[0].location.street;
                 this.houseNumber = this.houses[0].location.houseNumber;
                 this.addition = this.houses[0].location.numberAddition;
@@ -145,13 +144,13 @@ export default {
             }            
         },
     
-        async editHouse() {   
+        async editHouse() {   //submit the updated data 
             const id = this.$route.params.id;        
             //edit the existing house
             console.log('Starting to edit the house data...');
             try {
                 console.log('Sending to update the house...');
-                const response = await axios.post(
+                const response = await axios.post( //send a request to update data 
                     `https://api.intern.d-tt.nl/api/houses/${id}`,                    
                     {                      
                         streetName: this.streetName,
@@ -179,7 +178,7 @@ export default {
                     console.log('house updated successfully');
                     this.$router.push(`/houses/${id}`);
                     
-                    if (this.image) {
+                    if (this.image) {//upload the img
                         const formData = new FormData();
                         formData.append('image', this.image);
                         const imageUpload = await axios.post(`https://api.intern.d-tt.nl/api/houses/${id}/upload`,

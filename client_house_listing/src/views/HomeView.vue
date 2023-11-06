@@ -1,72 +1,3 @@
-<script>
-import axios from 'axios'
-import { RouterLink, RouterView } from 'vue-router'
-
-export default {
-  data() {
-    return {
-      houses: [],
-      searchQuery: '',
-      sortBy: '',
-      activeSortButton:'',
-    };    
-  },
-
-  computed: {
-    //filter houses as per search button
-    filteredHouses() {
-      return this.houses.filter((house) => {
-        const streetSearch=house.location.street.toLowerCase().includes(this.searchQuery.toLowerCase());
-        const citySearch=house.location.city.toLowerCase().includes(this.searchQuery.toLowerCase());
-        const priceSearch=house.price === Number(this.searchQuery);
-        const zipSearch=house.location.zip.toLowerCase().includes(this.searchQuery.toLowerCase());
-        const sizeSearch=house.size === Number(this.searchQuery);
-        return streetSearch || citySearch || priceSearch || zipSearch ||sizeSearch;
-      });
-    },
-
-    //sort houses as per sort buttons (price and size)
-
-    sortedHouses() {
-      let sorted = [...this.filteredHouses]; //copy filteredhouses to keep original data    
-    if (this.sortBy === 'price') {
-      sorted = sorted.sort((a,b) => a.price - b.price);
-    } else if (this.sortBy === 'size') {
-      sorted = sorted.sort((a,b) => a.size - b.size);
-    }
-    return sorted;
-  },
-  },
-
-  methods: {
-    async getData() {
-      try {
-        const response = await axios.get(
-          'https://api.intern.d-tt.nl/api/houses', {
-      headers: {
-        'X-Api-Key': import.meta.env.VITE_APP_API_KEY,
-      },
-    }
-    );
-    this.houses = response.data;
-      } catch (error){
-        console.log(error);
-      }
-    },
-
-    sortByOption(option) {
-    this.sortBy = option;
-    this.activeSortButton = option;
-    },  
-  }, 
-
-  created() {
-    this.getData();
-  },
-};
-
-</script>
-
 <template>
   <div class="house-list">
     <div>
@@ -123,6 +54,75 @@ export default {
     </div>      
   </div>
 </template>
+
+<script>
+import axios from 'axios'
+import { RouterLink, RouterView } from 'vue-router'
+
+export default {
+  data() {
+    return {
+      houses: [], //store house data
+      searchQuery: '', //user input for search 
+      sortBy: '', //sorting option for price and size 
+      activeSortButton:'', //active button for price and size 
+    };    
+  },
+
+  computed: {
+    //filter houses as per search button
+    filteredHouses() {
+      return this.houses.filter((house) => {
+        const streetSearch=house.location.street.toLowerCase().includes(this.searchQuery.toLowerCase());
+        const citySearch=house.location.city.toLowerCase().includes(this.searchQuery.toLowerCase());
+        const priceSearch=house.price === Number(this.searchQuery);
+        const zipSearch=house.location.zip.toLowerCase().includes(this.searchQuery.toLowerCase());
+        const sizeSearch=house.size === Number(this.searchQuery);
+        return streetSearch || citySearch || priceSearch || zipSearch ||sizeSearch;
+      });
+    },
+
+    //sort houses as per sort buttons (price and size)
+
+    sortedHouses() {
+      let sorted = [...this.filteredHouses]; //copy filteredhouses to keep original data    
+    if (this.sortBy === 'price') {
+      sorted = sorted.sort((a,b) => a.price - b.price);
+    } else if (this.sortBy === 'size') {
+      sorted = sorted.sort((a,b) => a.size - b.size);
+    }
+    return sorted;
+  },
+  },
+
+  methods: {
+    async getData() {
+      try {
+        const response = await axios.get(
+          'https://api.intern.d-tt.nl/api/houses', {
+      headers: {
+        'X-Api-Key': import.meta.env.VITE_APP_API_KEY,
+      },
+    }
+    );
+    this.houses = response.data;
+      } catch (error){
+        console.log(error);
+      }
+    },
+
+    sortByOption(option) { //update the sorting option and active the button
+    this.sortBy = option;
+    this.activeSortButton = option;
+    },  
+  }, 
+
+  created() {
+    this.getData(); //get the house data when the component is created 
+  },
+};
+
+</script>
 
 
 <style scoped>

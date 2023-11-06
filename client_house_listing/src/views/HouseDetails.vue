@@ -28,7 +28,8 @@
 </template>
 
 <script>
-  import axios from 'axios'
+  import axios from 'axios';
+
   export default {
     data () {
         return {
@@ -46,6 +47,7 @@
         async getHouseDetails(id) {
             try {
                 console.log('Fetching data for house ID:', id); // Log the request
+                //to get house details by using axios get method
                 const response = await axios.get(
                     `https://api.intern.d-tt.nl/api/houses/${id}`,
                     {
@@ -54,6 +56,8 @@
                     }
                 );
                 console.log('Response:', response.data); // Log the response data
+
+                //update the component's data with the retrieved house details.
                 this.houses = response.data;
             } catch (error){
                 console.log(error);
@@ -61,14 +65,16 @@
         },
 
         confirmDelete(id) {
+            //asking confirmation before deleting a house 
             const askDelete = window.confirm('Are you sure? You will delete this house.');
-            if (askDelete) {
+            if (askDelete) { //if confirmed, starting delete method. 
                 this.deleteHouse(id);
             }
         },
 
         async deleteHouse(id) {
             try {
+                //axios request to delete a house. 
                 const response = await axios.delete(`https://api.intern.d-tt.nl/api/houses/${id}`,{
                     headers: {
                         'X-Api-Key': import.meta.env.VITE_APP_API_KEY,
@@ -77,6 +83,7 @@
 
                 if (response.status === 200 || 204) {
                     console.log('House deleted successfully');
+                    //after deleting, redirecting to the house page
                     this.$router.push('/houses');
                 } else {
                     console.log('failed to delete the house', response.status)

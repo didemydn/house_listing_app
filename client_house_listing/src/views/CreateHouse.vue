@@ -110,10 +110,10 @@ export default {
         handleFileChange(event) {
             this.image = event.target.files[0];
         },
-        async postHouse() {
+        async postHouse() {//submit the created house 
             //data to be sent to API
             console.log('Starting to post the house data...');
-            const newHouse = {                
+            const newHouse = { //send a post request to create a new house   
                 streetName: this.streetName,
                 houseNumber: this.houseNumber,
                 numberAddition: this.addition,
